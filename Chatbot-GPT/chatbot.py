@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "sk-proj-sJ4leTWkD0Pkxyggg9ABT3BlbkFJbcL2WrBnvxMgHiSBVR1P"
+openai.api_key = "SUA API"
 
 def gera_texto(texto):
 
