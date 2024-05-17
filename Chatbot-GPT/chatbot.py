@@ -1,6 +1,6 @@
 import openai
 
-#openai.api_key = "SUA API"
+openai.api_key = "SUA API"
 
 def gera_texto(texto):
 
