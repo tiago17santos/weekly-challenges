@@ -31,24 +31,29 @@ public class Functions {
         System.out.println("3 - Cadastrar nova pergunta no formulário");
         System.out.println("4 - Deletar pergunta do formulário");
         System.out.println("5 - Pesquisar usuário por nome ou idade ou email");
+        System.out.println("6 - Sair");
         int op = sc.nextInt();
         return op;
     }
 
-    public void lePerguntas(){
+    public List lePerguntas() {
         String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
+        List lineList = new ArrayList();
 
-        try(BufferedReader br = new BufferedReader(new FileReader(pathIn))){
-            String line = br.readLine();
-            while(line != null){
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(pathIn))) {
+            line = br.readLine();
+            while (line != null) {
                 System.out.println(line);
+                lineList.add(line);
                 line = br.readLine();
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return lineList;
     }
 
     public void cadastrarUsuario(){
@@ -107,10 +112,10 @@ public class Functions {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathIn))){
             Scanner sc = new Scanner(System.in);
 
-            System.out.println("Qual pergunta você deseja salavar?");
+            System.out.println("Qual pergunta você deseja salvar?");
             String perg = sc.next();
 
-            String pergAdd = "1 -" + perg;
+            String pergAdd = "1- " + perg;
 
             bw.newLine();
             bw.write(pergAdd);
@@ -122,7 +127,31 @@ public class Functions {
         }
     }
 
-    public void removerPerg(){}
+    public void removerPerg() throws IOException {
+        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
+
+        List func = lePerguntas();
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Qual pergunta você deseja remover?");
+        String perg = sc.next();
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathIn))){
+
+            for(Object line : func) {
+                if (!line.toString().contains(perg)) {
+                    bw.write(line + "\r\n");
+                }
+            }
+
+            System.out.println("Pergunta deletada");
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
     public void psqUsuario(){}
 
