@@ -41,14 +41,8 @@ public class Program {
                 case 6:
                     saiu = true;
                     break;
-
-                default: func.menu();
-
             }
-
         }
         while (!saiu);
-
-
     }
 }

@@ -73,7 +73,7 @@ public class Functions {
     public void salvaRespostaArquivo(){
 
         String nomeArq = nome.replace(" ","").toUpperCase();
-        String pathOut = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/" + nomeArq + ".txt";
+        String pathOut = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos/" + nomeArq + ".txt";
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathOut))){
             for(Pessoa line : lista){
@@ -106,6 +106,7 @@ public class Functions {
         }
 
     }
+
     public void cadastrarPerg(){
         String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
@@ -130,29 +131,49 @@ public class Functions {
     public void removerPerg() throws IOException {
         String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
-        List func = lePerguntas();
+        List ArqPerg = lePerguntas();
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Qual pergunta você deseja remover?");
+        System.out.println("Qual pergunta você deseja remover? (Digite o número dela)");
         String perg = sc.next();
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathIn))){
 
-            for(Object line : func) {
-                if (!line.toString().contains(perg)) {
-                    bw.write(line + "\r\n");
+        FileWriter fileWriter = new FileWriter(pathIn, false);
+
+        try{
+        //executar para prossseguir na logica da exclusão - 21/08
+
+            for(Object line : ArqPerg) {
+                if (!perg.contains("1") && !perg.contains("2") && !perg.contains("3") && !perg.contains("4") ){
+
+                    if(!line.toString().contains(perg)) {
+                        fileWriter.write(line + "\r\n");
+
+
+                    }
+                }else {
+                   System.out.println("Essa pergunta não pode ser excluida");
+                   return;
                 }
             }
 
             System.out.println("Pergunta deletada");
 
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
 
+        }finally   {
+            try {
+                fileWriter.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
-    public void psqUsuario(){}
+            public void psqUsuario(){}
 
 }
