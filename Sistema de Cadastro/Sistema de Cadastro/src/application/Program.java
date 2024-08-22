@@ -17,12 +17,13 @@ public class Program {
         do{
             switch (func.menu()){
                 case 1:
-                    func.lePerguntas();
+                    //Finalizado;
                     func.cadastrarUsuario();
                     func.salvaRespostaArquivo();
                     break;
 
                 case 2:
+                    //Finalizado;
                     func.listarUsuarios();
                     break;
 
@@ -35,7 +36,7 @@ public class Program {
                     break;
 
                 case 5:
-                    //Pesquisar usuário por nome ou idade ou email;
+                    //Finalizado;
                     func.psqUsuario();
                     break;
                 case 6:
@@ -44,5 +45,6 @@ public class Program {
             }
         }
         while (!saiu);
+        sc.close();
     }
 }

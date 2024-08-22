@@ -8,14 +8,14 @@ import java.util.Scanner;
 public class Pessoa {
     private String nome;
     private String email;
-    private int idade;
+    private String idade;
     private String altura;
 
     public Pessoa(){
         super();
     }
 
-    public Pessoa(String nome, String email, int idade, String altura) {
+    public Pessoa(String nome, String email, String idade, String altura) {
         this.nome = nome;
         this.email = email;
         this.idade = idade;
@@ -30,11 +30,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public int getIdade() {
+    public String getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(String idade) {
         this.idade = idade;
     }
 
