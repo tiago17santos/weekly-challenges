@@ -110,7 +110,7 @@ public class Functions {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     line = br.readLine();
                     for (int i = 0; i==0;i++){
-                        System.out.println(cont + "- " + line);
+                        System.out.println(cont + " - " + line);
                         cont++;
                     }
                     br.close();
@@ -131,12 +131,22 @@ public class Functions {
 
             System.out.println("Qual pergunta você deseja salvar?");
             String perg = sc.nextLine();
-            //Lê o arquivo e joga as perguntas em umas lista
-            // depois verificar o tamanho dela para adicionar a proxima pergunta
-            //verificar le perguntas - está lendo somente a ultima adicionada
-            String pergAdd = "1- " + perg;
 
-            bw.write("\n\r");
+            FileReader fr = new FileReader(pathIn);
+            BufferedReader br = new BufferedReader(fr);
+
+            List<String> listaPerg = new ArrayList<>();
+            String line = br.readLine();
+
+            while (line != null) {
+                listaPerg.add(line);
+                line = br.readLine();
+            }
+
+            int tamanhoLista = listaPerg.size() + 1;
+
+            String pergAdd = "\n" + tamanhoLista + "- "  + perg ;
+
             bw.write(pergAdd);
 
             System.out.println("Arquivo salvo");
