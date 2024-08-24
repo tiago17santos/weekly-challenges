@@ -26,7 +26,8 @@ public class Functions {
 
     public int menu(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("1 - Cadastrar o usuário");
+
+        System.out.println("\n1 - Cadastrar o usuário");
         System.out.println("2 - Listar todos usuários cadastrados");
         System.out.println("3 - Cadastrar nova pergunta no formulário");
         System.out.println("4 - Deletar pergunta do formulário");
@@ -59,7 +60,7 @@ public class Functions {
     public void cadastrarUsuario(){
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Qual seu nome: ");
+        System.out.print("\nQual seu nome: ");
         nome = sc.nextLine();
         System.out.print("Qual seu email: ");
         email = sc.nextLine();
@@ -110,7 +111,8 @@ public class Functions {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     line = br.readLine();
                     for (int i = 0; i==0;i++){
-                        System.out.println(cont + " - " + line);
+
+                        System.out.println("\t" + cont + " - " + line);
                         cont++;
                     }
                     br.close();

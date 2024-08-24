@@ -17,13 +17,11 @@ public class Program {
         do{
             switch (func.menu()){
                 case 1:
-                    //Finalizado;
                     func.cadastrarUsuario();
                     func.salvaRespostaArquivo();
                     break;
 
                 case 2:
-                    //Finalizado;
                     func.listarUsuarios();
                     break;
 
@@ -36,7 +34,6 @@ public class Program {
                     break;
 
                 case 5:
-                    //Finalizado;
                     func.psqUsuario();
                     break;
                 case 6:
