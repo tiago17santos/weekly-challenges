@@ -9,7 +9,7 @@ public class Functions {
 
     private String nome;
     private String email;
-    private String idade;
+    private int idade;
     private String altura;
     static List<Pessoa> lista = new ArrayList<>();
 
@@ -17,7 +17,7 @@ public class Functions {
         super();
     }
 
-    public Functions(String nome, String email, String idade, String altura){
+    public Functions(String nome, String email, int idade, String altura){
         this.nome = nome;
         this.email = email;
         this.idade = idade;
@@ -38,7 +38,7 @@ public class Functions {
     }
 
     public List lePerguntas() {
-        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
         List lineList = new ArrayList();
 
@@ -57,26 +57,95 @@ public class Functions {
         return lineList;
     }
 
-    public void cadastrarUsuario(){
-        Scanner sc = new Scanner(System.in);
+    public class CadastroException extends Exception {
+        public CadastroException(String message) {
+            super(message);
+        }
+    }
 
-        System.out.print("\nQual seu nome: ");
+    public void cadastrarUsuario() throws CadastroException {
+        Scanner sc = new Scanner(System.in);
+        lePerguntas();
+
         nome = sc.nextLine();
-        System.out.print("Qual seu email: ");
+        while (nome.length() < 10) {
+            try {
+                throw new CadastroException("Nome inválido, ele deve conter mais que 10 caracteres.");
+            } catch (CadastroException e) {
+                System.out.println(e.getMessage());
+                nome = sc.nextLine();
+            }
+        }
+
+
         email = sc.nextLine();
-        System.out.print("Qual sua idade: ");
-        idade = sc.nextLine();
-        System.out.print("Qual seu altura: ");
+        while (!email.contains("@")) {
+            try {
+                throw new CadastroException("Digite o e-mail novamente, está faltando  '@..'");
+            } catch (CadastroException e) {
+                System.out.println(e.getMessage());
+                email = sc.nextLine();
+                if (verificaEmail(email)) {
+                    while (verificaEmail(email)) {
+                        try {
+                            throw new CadastroException("Esse e-mail ja existe, inclua outro.");
+                        } catch (CadastroException j) {
+                            System.out.println(j.getMessage());
+                            email = sc.nextLine();
+                        }
+                    }
+                }
+            }
+        }
+
+        idade = sc.nextInt();
+        while (idade < 18) {
+            try {
+                throw new CadastroException("Você deve ser maior que 18 anos!");
+            } catch (CadastroException e) {
+                System.out.println(e.getMessage());
+                idade = sc.nextInt();
+            }
+        }
+
+
+        sc.nextLine();
         altura = sc.nextLine();
 
         lista.add(new Pessoa(nome, email,idade,altura));
 
     }
 
+    public boolean verificaEmail(String emailExistente) {
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos";
+        String line;
+
+        try{
+            File pasta = new File(pathIn);
+            File[] lists = pasta.listFiles();
+            for (File file : lists) {
+                if (file.isFile() && file.getName().endsWith(".txt")) {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    line = br.readLine();
+                    while (line != null) {
+                        if (line.contains(emailExistente)) {
+                            return true;
+                        }
+                        line = br.readLine();
+                    }
+                    br.close();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
     public void salvaRespostaArquivo(){
 
         String nomeArq = nome.replace(" ","").toUpperCase();
-        String pathOut = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos/" + nomeArq + ".txt";
+        String pathOut = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos/" + nomeArq + ".txt";
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathOut))){
             for(Pessoa line : lista){
@@ -84,7 +153,7 @@ public class Functions {
                 bw.newLine();
                 bw.write(line.getEmail());
                 bw.newLine();
-                bw.write(line.getIdade());
+                bw.write(String.valueOf(line.getIdade()));
                 bw.newLine();
                 bw.write(line.getAltura());
                 bw.newLine();
@@ -97,7 +166,7 @@ public class Functions {
     }
 
     public void listarUsuarios(){
-        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos";
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos";
 
         String line;
 
@@ -107,11 +176,9 @@ public class Functions {
             int cont = 1;
             for (File file : lists) {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
-
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     line = br.readLine();
                     for (int i = 0; i==0;i++){
-
                         System.out.println("\t" + cont + " - " + line);
                         cont++;
                     }
@@ -126,7 +193,7 @@ public class Functions {
     }
 
     public void cadastrarPerg(){
-        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(pathIn, true))){
             Scanner sc = new Scanner(System.in);
@@ -159,46 +226,42 @@ public class Functions {
     }
 
     public void removerPerg() throws IOException {
-        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/formulario.txt";
 
-        List ArqPerg = lePerguntas();
+        List<String>  ArqPerg = lePerguntas();
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Qual pergunta você deseja remover? (Digite o número dela)");
         String perg = sc.next();
 
-        FileWriter fileWriter = new FileWriter(pathIn, false);
+        // Verifica se a pergunta a ser excluída é válida (1 a 4).
+        if (perg.equals("1") || perg.equals("2") || perg.equals("3") || perg.equals("4")) {
+            System.out.println("Essa pergunta não pode ser excluída");
+            return;
+        }
 
-        try{
-            for(Object line : ArqPerg) {
-                if (!perg.contains("1") && !perg.contains("2") && !perg.contains("3") && !perg.contains("4") ){
-                    if(!line.toString().contains(perg)) {
-                        fileWriter.write(line + "\r\n");
-                    }
-                }
-                else {
-                   System.out.println("Essa pergunta não pode ser excluida");
-                   return;
-                }
+        // Filtra as perguntas que não devem ser excluídas
+        List<String> novasPerguntas = new ArrayList<>();
+        for (String line : ArqPerg) {
+            if (!line.contains(perg)) {
+                novasPerguntas.add(line);  // Adiciona apenas as perguntas que não contêm o número digitado.
             }
+        }
 
-            System.out.println("Pergunta deletada");
-
+        // Reescrevendo o arquivo com as perguntas restantes
+        try (FileWriter fileWriter = new FileWriter(pathIn, false)) {
+            for (String pergunta : novasPerguntas) {
+                fileWriter.write(pergunta + "\r\n");  // Escreve cada pergunta no arquivo.
+            }
+            System.out.println("Pergunta deletada com sucesso!");
         } catch (IOException e) {
             throw new RuntimeException(e);
-
-        }finally   {
-            try {
-                fileWriter.close();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
 
     public void psqUsuario() throws IOException {
-        String pathIn = "C:/Users/tiago/OneDrive/Área de Trabalho/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos";
+        String pathIn = "C:/Users/tiago/Desktop/JAVA/exercicios/Sistemas/Sistema de Cadastro/arquivos";
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite o nome do usuario que você deseja pesquisar: ");

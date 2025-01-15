@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Program {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Functions.CadastroException {
         Scanner sc = new Scanner(System.in);
 
         Functions func = new Functions();
@@ -39,6 +39,7 @@ public class Program {
                 case 6:
                     saiu = true;
                     break;
+
             }
         }
         while (!saiu);
