@@ -26,43 +26,47 @@
         }
     </style>
 </head>
-
 <body>
-    {% block content %}
     <div class="container d-flex flex-column align-items-center">
         <div class="table-container col-md-10">
             <h2 class="text-center mb-4">Lista de Produtos</h2>
-            <div class=" row d-flex justify-content-between mb-3" >
-                <div class="col-5 text-center">
+
+            <form method="get" class=" row d-flex justify-content-between mb-3" >
+                <div class="col-5 text-center"  >
+                    {% block content %}
+
                     <div class="d-flex justify-content-around">
-                        <input type="radio" name="opcao" id="disp"> Disponível </input>
+                        <input type="radio" name="opcao" value="Disponível" id="disp"> 
+                        <label for="Disponível">Disponível</label>
                         <br>
 
-                        <select name="" id="drop_disp" disabled>
+                        <select name="drop_disp" id="drop_disp" disabled>
                             <option value="sim">Sim</option>
                             <option value="nao">Não</option>
                         </select>
                         
                     
-                        <input type="radio" name="opcao" id="cat_prod"> Categoria </input>
+                        <input type="radio" name="opcao" value="Categoria" id="cat_prod">
+                        <label for="Categoria">Categoria</label>
                         <br>
-                        <select name="" id="drop_cat" disabled>
+
+                        <select name="drop_cat" id="drop_cat" disabled>
                             {% for categoria in categorias %}
                             <option value="{{categoria.id}}">{{categoria.nome}}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mt-3">
-                        <a href="{% url 'listagem' %}" class="btn btn-secondary">Filtrar</a>
+                        <button type="submit" class="btn btn-success">Filtrar</button>
                         <a href="{% url 'listagem' %}" class="btn btn-danger">Limpar Filtro</a>
                     </div>
                     
                 </div>
-                <div class="col-3">
+                <div class="col-3" >
                     <a href="{% url 'cadastro' %}" class="btn btn-primary">Cadastrar Novo Produto</a>
                 </div>
+            </form>
                 
-            </div>
             <table class=" text-center table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -106,7 +110,6 @@
 
         // Função para controlar o estado dos elementos de filtro
         function verificaChecked() {
-
             if (disp.checked) {
                 drop_disp.disabled  = false
                 drop_cat.disabled  = true
@@ -123,8 +126,6 @@
         // Adiciona ouvintes de evento para mudanças nos radios buttons
         disp.addEventListener('change', verificaChecked);
         cat_prod.addEventListener('change', verificaChecked);
-
-
     </script>
 </body>
 </html>

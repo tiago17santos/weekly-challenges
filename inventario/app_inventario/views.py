@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Cadastro, Categorias
+from django.core.paginator import Paginator
 
 def cadastro(request):
      cadastro = Cadastro()
+     categorias = Categorias.objects.all()
 
      if request.method == 'POST':
 
@@ -13,25 +15,17 @@ def cadastro(request):
           cadastro.disp = True if request.POST.get('disp') == 'sim' else False  # Converter valores "sim"/"nao" para True/False
           cat_prod_id = request.POST.get('catProd')
 
-          
-           # Converter valores "sim"/"nao" para True/False
-          if cadastro.disp == "sim":
-               cadastro.disp = True
-          elif cadastro.disp == "nao":
-               cadastro.disp = False
-
           cadastro.valor = float(cadastro.valor)  # Certifica-se de que o valor seja numérico
 
           if cat_prod_id:  # Verifica se a categoria foi enviada
-               categoria = get_object_or_404(Categorias, id=cat_prod_id)  # Busca a categoria
+               categoria = get_object_or_404(Categorias, id=cat_prod_id)  # Busca a categoria de acordo com o id
                cadastro.cat_prod = categoria
                cadastro.save()
                return redirect('listagem')  # Redireciona para a lista de produtos
           else:
                return render(request, 'cadastro.html', {'error': 'A categoria é obrigatória!'})
 
-
-     categorias = Categorias.objects.all()
+     # Dados que serão passados para o template
      context = {
           'categorias': categorias
      }
@@ -40,12 +34,30 @@ def cadastro(request):
 
 
 def listagem(request):
-     produtos = Cadastro.objects.all() #Buscando todos os registros
+     produtos = Cadastro.objects.all().order_by('valor') #Buscando todos os registros
      categorias = Categorias.objects.all()
 
+     drop = request.GET.get('opcao')
+
+     # Aplicar filtros
+     if drop == "Disponível":
+          drop_disp = request.GET.get("drop_disp")
+          disponivel = True if drop_disp == 'sim' else False  # Converter valores "sim"/"nao" para True/False
+          
+          if drop_disp:
+               produtos = produtos.filter(disp=disponivel)
+     
+
+     if drop == "Categoria":
+        drop_cat = request.GET.get("drop_cat")
+
+        if drop_cat:
+            produtos = produtos.filter(cat_prod_id=drop_cat)
+     
+     # Dados que serão passados para o template
      context = {
           'produtos': produtos,
-          'categorias': categorias
+          'categorias': categorias,
      }
     
      return render(request, 'listagem.html', context)
@@ -67,7 +79,7 @@ def editar_prod(request,pk):
      context = {
           'produto': produto,
           'categorias': categorias,
-          'cat_sel': produto.cat_prod_id if produto.cat_prod_id else None
+          'cat_sel': produto.cat_prod_id if produto.cat_prod_id else None # Enviando a categoria do produto caso ele exista, caso não exista envia NONE
      }
 
      if request.method == 'POST':
@@ -80,7 +92,7 @@ def editar_prod(request,pk):
           produto.valor = float(produto.valor)  # Certifica-se de que o valor seja numérico
 
           if cat_prod_id:  # Verifica se a categoria foi enviada
-               categoria = get_object_or_404(Categorias, id=cat_prod_id)  # Busca a categoria
+               categoria = get_object_or_404(Categorias, id=cat_prod_id) 
                produto.cat_prod = categoria
                produto.save()
                return redirect('listagem')  # Redireciona para a lista de produtos
@@ -91,9 +103,8 @@ def editar_prod(request,pk):
 
 
 def excluir_item(request, pk):
-     produto = get_object_or_404(Cadastro,id=pk)
+     produto = get_object_or_404(Cadastro,id=pk) #Buscando produto de acordo com id passado pela requisição get
      produto.delete() #deletando produto
-
 
      # Após excluir, renderiza novamente a página de listagem e recupera a lista de produtos atualizada
      produtos = Cadastro.objects.all()
