@@ -5,7 +5,6 @@ class Categorias(models.Model):
 
     
 class Cadastro(models.Model):
-
     nome_prod = models.CharField(max_length=255)
     desc_prod = models.TextField()
     valor = models.DecimalField(max_digits=12, decimal_places=2)
