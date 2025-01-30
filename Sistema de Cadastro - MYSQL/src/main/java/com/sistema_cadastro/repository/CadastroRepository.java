@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadastroRpository {
+public class CadastroRepository {
 
     public static void insertPessoas(Pessoa pessoa) {
 
@@ -95,7 +95,7 @@ public class CadastroRpository {
         return pessoas;
     }
 
-    public static void deletarPergunta(int id) {
+    public static void deletePergunta(int id) {
         String sql = "DELETE FROM `sistema_cadastros`.`perguntas` WHERE `id` = ?;";
 
         try (Connection conn = ConnectionFactory.getConnection();
@@ -109,7 +109,7 @@ public class CadastroRpository {
         }
     }
 
-    public static List<Pessoa> findPessoaByName(String nome){
+    public static List<Pessoa> findByNome(String nome){
         String sql = "SELECT id,nome FROM `sistema_cadastros`.`pessoas` WHERE nome like ?";
 
         List<Pessoa> pessoas = new ArrayList<>();
@@ -136,7 +136,7 @@ public class CadastroRpository {
 
     }
 
-    public static List<Pessoa> findPessoaByAge(int idade){
+    public static List<Pessoa> findByAge(int idade){
         String sql = "SELECT id,nome FROM `sistema_cadastros`.`pessoas` WHERE idade = ?";
 
         List<Pessoa> pessoas = new ArrayList<>();
@@ -162,7 +162,25 @@ public class CadastroRpository {
 
     }
 
-    public static List<Pessoa> findPessoaByEmail(String email){
+    public static boolean verificaEmailCadastrado(String email){
+        String sql = "SELECT 1 FROM `sistema_cadastros`.`pessoas` WHERE email = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                // Se houver um resultado, significa que o e-mail já está cadastrado
+                return rs.next();
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static List<Pessoa> findByEmail(String email){
         String sql = "SELECT id,nome FROM `sistema_cadastros`.`pessoas` WHERE email like ?";
 
         List<Pessoa> pessoas = new ArrayList<>();
