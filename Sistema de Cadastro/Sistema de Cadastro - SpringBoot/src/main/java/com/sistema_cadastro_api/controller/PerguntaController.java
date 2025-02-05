@@ -33,7 +33,7 @@ public class PerguntaController {
         try {
             List<PerguntaModel> perguntas = perguntaService.findAll();
             if (perguntas.isEmpty()) {
-                return ResponseEntity.badRequest().body("Pessoa não encontrada!");
+                return ResponseEntity.badRequest().body("Pergunta não encontrada!");
             }
             return ResponseEntity.ok(perguntas);
         } catch (RuntimeException e) {
@@ -46,7 +46,7 @@ public class PerguntaController {
         try {
             Optional<PerguntaModel> perguntas = perguntaService.delete(id);
             if (perguntas.isEmpty()) {
-                return ResponseEntity.badRequest().body("Pessoa não encontrada!");
+                return ResponseEntity.badRequest().body("Pergunta não encontrada!");
             }
             return ResponseEntity.ok("Pergunta deletada com sucesso!");
         } catch (RuntimeException e) {
