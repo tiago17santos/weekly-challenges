@@ -24,7 +24,7 @@ public class PessoaController {
     PessoaService pessoaService;
 
     @PostMapping("/pessoas")
-    public ResponseEntity<String> savePessoa(@RequestBody @Valid PessoaRecordDto pessoaRecordDto) {
+    public ResponseEntity<String> savePessoa(@Valid @RequestBody PessoaRecordDto pessoaRecordDto) {
         try {
             pessoaService.save(pessoaRecordDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Pessoa cadastrada com sucesso!");

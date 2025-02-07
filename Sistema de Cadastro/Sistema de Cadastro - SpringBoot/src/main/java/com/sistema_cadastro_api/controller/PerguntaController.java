@@ -18,7 +18,7 @@ public class PerguntaController {
     private PerguntaService perguntaService;
 
     @PostMapping("/perguntas")
-    public ResponseEntity<String> savePergunta(@RequestBody @Valid PerguntaRecordDto perguntaRecordDto) {
+    public ResponseEntity<String> savePergunta(@Valid @RequestBody PerguntaRecordDto perguntaRecordDto) {
         try {
             perguntaService.save(perguntaRecordDto);
             return ResponseEntity.ok("Pergunta cadastrada com sucesso!");
