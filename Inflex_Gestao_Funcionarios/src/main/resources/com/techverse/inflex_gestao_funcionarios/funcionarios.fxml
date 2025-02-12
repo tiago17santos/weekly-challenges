@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.FuncionarioController">
+    <Label text="Lista de Funcionários"/>
+    <TableView fx:id="tabelaFuncionarios">
+        <columns>
+            <TableColumn text="Nome" fx:id="colunaNome"/>
+            <TableColumn text="Função" fx:id="colunaFuncao"/>
+            <TableColumn text="Salário" fx:id="colunaSalario"/>
+        </columns>
+    </TableView>
+    <Button text="Adicionar Funcionário" />
+    <Button text="Remover Funcionário" />
+</VBox>
