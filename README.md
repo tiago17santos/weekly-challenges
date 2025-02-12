@@ -1,3 +1,3 @@
-#Desafios semanais
+## Desafios semanais
 
-Scripts, sistemas, projetos e desafios semanais em python e java
+## Scripts, sistemas, projetos e desafios em python e java
