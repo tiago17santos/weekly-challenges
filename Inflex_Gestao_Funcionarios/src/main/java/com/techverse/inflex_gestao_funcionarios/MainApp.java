@@ -1,5 +1,7 @@
 package com.techverse.inflex_gestao_funcionarios;
 
+import com.techverse.inflex_gestao_funcionarios.controllers.MenuController;
+import com.techverse.inflex_gestao_funcionarios.services.FuncionarioService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,9 +29,27 @@ public class MainApp extends Application {
 
     //Metodo para carregar o arquivo FXML e garantir que retorna um Parent
     private static Parent loadFXML(String fxml) throws IOException {
+        // Carrega o arquivo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();  // Isso garante que o nó raiz é do tipo Parent
+        Parent root = fxmlLoader.load(); // Carrega a interface FXML
+
+        // Obtém o controlador
+        Object controller = fxmlLoader.getController();
+
+        // Verifica se o controlador é o correto
+        if (controller instanceof MenuController) {
+            MenuController menuController = (MenuController) controller;
+            FuncionarioService funcionarioService = new FuncionarioService(); // Criação do serviço
+            menuController.setFuncionarioService(funcionarioService); // Injeção de dependência
+        } else {
+            // Lidar com outro controlador, se necessário
+            System.out.println("O controlador não é do tipo esperado.");
+        }
+
+        // Retorna o nó raiz da interface FXML
+        return root;
     }
+
 
 
     public static void main(String[] args) {

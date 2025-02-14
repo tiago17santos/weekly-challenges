@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 
 public class FuncionarioService {
@@ -31,8 +32,18 @@ public class FuncionarioService {
     }
 
     public void aplicarAumento() {
-        BigDecimal salario = listaFuncionarios.get(listaFuncionarios.size() - 1).getSalario();
-        //salario = salario * 0.10;
+        double percentual = 10.0;
+        BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);
+
+        listaFuncionarios.values().forEach(funcionario -> {
+            BigDecimal salarioAtual = funcionario.getSalario();
+
+            BigDecimal aumento = BigDecimal.ONE.add(percentualBigDecimal); // 1 + percentual
+
+            // Multiplica aumento pelo salarioAtual e arredonda o valor para 2 casas decimais
+            BigDecimal novoSalario = salarioAtual.multiply(aumento).setScale(2, RoundingMode.HALF_UP);
+            funcionario.setSalario(novoSalario);
+        });
     }
 
     public void salvarFuncionarios() {

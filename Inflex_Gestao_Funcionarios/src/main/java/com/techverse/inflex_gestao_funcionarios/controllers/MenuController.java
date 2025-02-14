@@ -10,6 +10,11 @@ public class MenuController {
 
     private FuncionarioService funcionarioService;
 
+    // Método setter para injetar o FuncionarioService
+    public void setFuncionarioService(FuncionarioService funcionarioService) {
+        this.funcionarioService = funcionarioService;
+    }
+
     @FXML
     public void handleAdicionarRemoverFuncionario() throws IOException {
         MainApp.setRoot("adicRemoverFunc-view");
