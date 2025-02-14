@@ -28,6 +28,7 @@ public class FuncionarioService {
         } else {
             listaFuncionarios.put(id, funcionario);
         }
+
     }
 
     public void excluirFuncionario(int id) {

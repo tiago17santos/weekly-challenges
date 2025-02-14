@@ -30,9 +30,6 @@ public class FuncionarioController {
     private TableView<Funcionario> tabelaFuncionarios;
 
     @FXML
-    private TableColumn<Funcionario, Integer> idColumn;
-
-    @FXML
     private TableColumn<Funcionario, String> nomeColumn;
 
     @FXML
@@ -46,7 +43,7 @@ public class FuncionarioController {
 
     private FuncionarioService funcionarioService;
 
-    private final ObservableList<Funcionario> listaAluno = FXCollections.observableArrayList();
+    private final ObservableList<Funcionario> listaFuncionarios = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -57,9 +54,9 @@ public class FuncionarioController {
     @FXML
     public void inicializarTabela() {
         Map<Integer, Funcionario> funcionarios = funcionarioService.getFuncionarios();
-
+        
         // Preencher a tabela com os dados
-        ObservableList<Funcionario> listaFuncionarios = FXCollections.observableArrayList(funcionarios.values());
+        ObservableList<Funcionario> arrayListFunc = FXCollections.observableArrayList(funcionarios.values());
 
         // Definir como as colunas serão populadas
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -68,7 +65,7 @@ public class FuncionarioController {
         cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargo"));
 
         // Adicionar os dados à tabela
-        tabelaFuncionarios.setItems(listaFuncionarios);
+        tabelaFuncionarios.setItems(arrayListFunc);
     }
 
     @FXML
@@ -81,7 +78,7 @@ public class FuncionarioController {
 
         if (selectFile != null) {
             try (Scanner scanner = new Scanner(selectFile)) {
-                listaAluno.clear();  // Limpa a lista antes de adicionar novos dados
+                listaFuncionarios.clear();  // Limpa a lista antes de adicionar novos dados
 
                 // Ignora a linha do cabeçalho (caso tenha)
                 if (scanner.hasNextLine()) {
@@ -143,10 +140,8 @@ public class FuncionarioController {
                             throw new Exception("Salário inválido. Interrompendo processamento.");
                         }
 
-
                         Funcionario func = new Funcionario(nome, dtNasc, salario, cargo);
-                        listaAluno.add(func);
-
+                        listaFuncionarios.add(func);
 
                     } catch (Exception e) {
                         // Exceção gerada caso os dados não possam ser convertidos corretamente
@@ -155,17 +150,21 @@ public class FuncionarioController {
                     }
                 }
 
+                // Atualiza a tabela com a lista de funcionários
+                ObservableList<Funcionario> funcionariosObservableList = FXCollections.observableArrayList(listaFuncionarios);
+                tabelaFuncionarios.setItems(funcionariosObservableList);
+
+
                 if (arquivoValido) {
-                    for (Funcionario func : listaAluno) {
+                    for (Funcionario func : listaFuncionarios) {
                         funcionarioService.inserirFuncionario(func);
                     }
-                    inicializarTabela();
                 } else { // Se o arquivo não for válido, exibe um alerta e não salva nenhum aluno
-                    listaAluno.clear();  // Limpa a lista caso o arquivo seja inválido
+                    listaFuncionarios.clear();  // Limpa a lista caso o arquivo seja inválido
                     exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
                 }
 
-                if (listaAluno.isEmpty()) {
+                if (listaFuncionarios.isEmpty()) {
                     // Caso o arquivo esteja vazio ou não tenha alunos válidos, exibe um alerta
                     exibirAlerta("alerta", "Aviso", "Nenhum Aluno Encontrado", "O arquivo CSV não contém alunos válidos.");
                 }
