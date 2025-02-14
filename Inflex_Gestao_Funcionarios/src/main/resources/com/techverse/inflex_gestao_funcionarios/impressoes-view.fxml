@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import java.net.URL?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+
+    <Label text="Impressões" styleClass="label-title"/>
+
+    <!-- ComboBox para selecionar o tipo de impressão -->
+    <ComboBox fx:id="comboBoxImpressao" onAction="#handleImpressaoSelecionada" styleClass="button-impressao"/>
+
+    <!-- A TableView mostrará os resultados de acordo com a escolha -->
+    <TableView fx:id="tabelaImpressao" styleClass="table-view">
+        <columns>
+            <TableColumn text="Nome" fx:id="colunaNomeImpressao" styleClass="table-column"/>
+            <TableColumn text="Função" fx:id="colunaFuncaoImpressao" styleClass="table-column"/>
+            <TableColumn text="Salário" fx:id="colunaSalarioImpressao" styleClass="table-column"/>
+        </columns>
+    </TableView>
+
+    <Button text="Voltar" onAction="#handleVoltarMenu" styleClass="button"/>
+    <Button text="Limpar Lista" onAction="#handleLimparLista" styleClass="button"/>
+</VBox>

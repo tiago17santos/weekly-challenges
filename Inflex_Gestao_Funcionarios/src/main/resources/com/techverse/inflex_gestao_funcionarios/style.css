@@ -1,0 +1,43 @@
+/* Estilos gerais para a interface */
+.root {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-base: #ffffff;
+    -fx-background-color: #f4f4f4;
+}
+
+/* Estilos para o título */
+.label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para botões */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* Estilo para a TableView */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+}
+
+.table-column {
+    -fx-text-fill: #333;
+}
+
+/* Estilos para a área de navegação */
+.hbox {
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}

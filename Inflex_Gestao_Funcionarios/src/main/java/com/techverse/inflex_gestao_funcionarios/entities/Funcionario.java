@@ -1,24 +1,27 @@
 package com.techverse.inflex_gestao_funcionarios.entities;
 
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Funcionario extends Pessoa {
 
-    private Double salario;
+    private BigDecimal salario;
     private String cargo;
 
 
-    public Funcionario(String nome, LocalDate dataNascimento, Double salario, String cargo) {
+    public Funcionario(String nome, LocalDate dataNascimento, BigDecimal salario, String cargo) {
         super(nome, dataNascimento);
         this.salario = salario;
         this.cargo = cargo;
     }
 
-    public Double getSalario() {
+
+    public BigDecimal getSalario() {
         return salario;
     }
 
-    public void setSalario(Double salario) {
+    public void setSalario(BigDecimal salario) {
         this.salario = salario;
     }
 

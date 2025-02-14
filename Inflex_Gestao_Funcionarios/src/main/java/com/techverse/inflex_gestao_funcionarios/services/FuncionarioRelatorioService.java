@@ -1,6 +1,6 @@
 package com.techverse.inflex_gestao_funcionarios.services;
 
-public class FuncionarioRelatorioServices {
+public class FuncionarioRelatorioService {
     /*
     3.3 – Imprimir todos os funcionários com todas suas informações, sendo que:
     3.5 – Agrupar os funcionários por função em um MAP, sendo a chave a “função” e o valor a “lista de funcionários”.
