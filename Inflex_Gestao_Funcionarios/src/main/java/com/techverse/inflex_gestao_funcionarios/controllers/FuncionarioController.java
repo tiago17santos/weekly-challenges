@@ -13,10 +13,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -51,10 +52,8 @@ public class FuncionarioController {
     }
 
 
-
     @FXML
     public void inicializarTabela() {
-        // Converte o HashMap para uma ObservableList
         ObservableList<Funcionario> funcionariosList = funcionarioService.carregarFuncionarios();
 
         // Definir como as colunas serão populadas
@@ -80,8 +79,7 @@ public class FuncionarioController {
             try (Scanner scanner = new Scanner(selectFile)) {
                 listaFuncionarios.clear();  // Limpa a lista antes de adicionar novos dados
 
-                // Ignora a linha do cabeçalho (caso tenha)
-                if (scanner.hasNextLine()) {
+                if (scanner.hasNextLine()) { // Ignora a linha do cabeçalho (caso tenha)
                     scanner.nextLine();
                 }
 
@@ -91,8 +89,7 @@ public class FuncionarioController {
                 while (scanner.hasNextLine()) {
                     String linha = scanner.nextLine().trim();
 
-                    // Se a linha estiver vazia, pula para a próxima
-                    if (linha.isEmpty()) {
+                    if (linha.isEmpty()) { // Se a linha estiver vazia, pula para a próxima
                         continue;
                     }
 
@@ -100,18 +97,15 @@ public class FuncionarioController {
 
                     // Verifica se a linha tem exatamente 4 colunas (nome,data_nascimento,salario,cargo)
                     if (dados.length != 4) {
-                        // Exibe um alerta caso o formato da linha esteja errado
                         exibirAlerta("error", "Erro de Formato", "Formato Incorreto", "A linha não está no formato esperado. \nCada linha deve ter 'nome,data_nascimento,salario,cargo'. \nLinha ignorada: " + linha);
-
-                        arquivoValido = false; // Marca que o arquivo está inválido
+                        arquivoValido = false;
                         throw new Exception("Linha vazia encontrada. Interrompendo processamento.");
                     }
 
                     try {
                         String nome = dados[0];
-
-                        // Validação e conversão de data
                         String[] dataParts = dados[1].split("/");
+
                         if (dataParts.length != 3) {
                             exibirAlerta("error", "Erro de Data", "Formato de Data Inválido", "Data inválida na linha: " + linha);
                             arquivoValido = false;
@@ -126,14 +120,12 @@ public class FuncionarioController {
                         BigDecimal salario = new BigDecimal(dados[2]);
                         String cargo = dados[3];
 
-                        // Verifica se a data é válida
                         if (mes < 1 || mes > 12 || dia < 1 || dia > 31) {
                             exibirAlerta("error", "Erro de Data", "Data Inválida", "Data inválida na linha: " + linha);
                             arquivoValido = false;
                             throw new Exception("Data inválida. Interrompendo processamento.");
                         }
 
-                        // Verifica se o salário é válido (por exemplo, positivo)
                         if (salario.compareTo(BigDecimal.ZERO) <= 0) {
                             exibirAlerta("error", "Erro de Salário", "Salário Inválido", "Salário inválido na linha: " + linha);
                             arquivoValido = false;
@@ -144,7 +136,6 @@ public class FuncionarioController {
                         listaFuncionarios.add(func);
 
                     } catch (Exception e) {
-                        // Exceção gerada caso os dados não possam ser convertidos corretamente
                         exibirAlerta("error", "Erro ao Processar Linha", "Erro de Dados", "Erro ao processar dados da linha: " + linha);
                         arquivoValido = false;
                     }
@@ -154,16 +145,14 @@ public class FuncionarioController {
                 ObservableList<Funcionario> funcionariosObservableList = FXCollections.observableArrayList(listaFuncionarios);
                 tabelaFuncionarios.setItems(funcionariosObservableList);
 
-
                 if (arquivoValido) {
                     funcionarioService.salvarFuncionarios();
-                } else { // Se o arquivo não for válido, exibe um alerta e não salva nenhum aluno
-                    listaFuncionarios.clear();  // Limpa a lista caso o arquivo seja inválido
+                } else {
+                    listaFuncionarios.clear();
                     exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
                 }
 
                 if (listaFuncionarios.isEmpty()) {
-                    // Caso o arquivo esteja vazio ou não tenha alunos válidos, exibe um alerta
                     exibirAlerta("alerta", "Aviso", "Nenhum Aluno Encontrado", "O arquivo CSV não contém alunos válidos.");
                 }
 
@@ -171,7 +160,6 @@ public class FuncionarioController {
                 e.printStackTrace();
             } catch (Exception e) {
                 exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s). Nenhum aluno foi adicionado.");
-
             }
         }
 
@@ -179,8 +167,17 @@ public class FuncionarioController {
 
     @FXML
     public void removerFuncionario() {
-        Map<Integer, Funcionario> funcionarios = funcionarioService.getFuncionarios();
-        System.out.println(funcionarios.values());
+        int selectedIndex = tabelaFuncionarios.getSelectionModel().getSelectedIndex();
+        Funcionario func = tabelaFuncionarios.getSelectionModel().getSelectedItem();
+
+        if (selectedIndex >= 0) {
+            funcionarioService.excluirFuncionario(selectedIndex);
+            tabelaFuncionarios.getSelectionModel().clearSelection();
+            tabelaFuncionarios.getItems().remove(selectedIndex);
+            exibirAlerta("sucesso","Removido","Funcionário Removido","Funcionário removido com sucesso.");
+        }else{
+            exibirAlerta("error","Erro na remoção","Nenhum registro seleionado","Selecione a linha de registro do funcionário e tente novamente!");
+        }
     }
 
     @FXML

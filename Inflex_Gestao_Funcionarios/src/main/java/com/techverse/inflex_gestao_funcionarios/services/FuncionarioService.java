@@ -19,7 +19,8 @@ public class FuncionarioService {
     private static FuncionarioService instancia;
     private HashMap<Integer, Funcionario> listaFuncionarios = new HashMap<>();
 
-    public FuncionarioService() {}
+    public FuncionarioService() {
+    }
 
     // Metodo para obter a instância única
     public static FuncionarioService getInstance() {
@@ -55,7 +56,11 @@ public class FuncionarioService {
     }
 
     public void excluirFuncionario(int id) {
-        listaFuncionarios.remove(id);
+
+        if (listaFuncionarios.containsKey(id)){
+            listaFuncionarios.remove(id);
+        }
+        salvarFuncionarios();
     }
 
     public HashMap<Integer, Funcionario> getFuncionarios() {
