@@ -13,11 +13,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -51,12 +50,12 @@ public class FuncionarioController {
         inicializarTabela();
     }
 
+
+
     @FXML
     public void inicializarTabela() {
-        Map<Integer, Funcionario> funcionarios = funcionarioService.getFuncionarios();
-        
-        // Preencher a tabela com os dados
-        ObservableList<Funcionario> arrayListFunc = FXCollections.observableArrayList(funcionarios.values());
+        // Converte o HashMap para uma ObservableList
+        ObservableList<Funcionario> funcionariosList = funcionarioService.carregarFuncionarios();
 
         // Definir como as colunas serão populadas
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -65,8 +64,9 @@ public class FuncionarioController {
         cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargo"));
 
         // Adicionar os dados à tabela
-        tabelaFuncionarios.setItems(arrayListFunc);
+        tabelaFuncionarios.setItems(funcionariosList);
     }
+
 
     @FXML
     public void importarFuncionarios() {
@@ -156,9 +156,7 @@ public class FuncionarioController {
 
 
                 if (arquivoValido) {
-                    for (Funcionario func : listaFuncionarios) {
-                        funcionarioService.inserirFuncionario(func);
-                    }
+                    funcionarioService.salvarFuncionarios();
                 } else { // Se o arquivo não for válido, exibe um alerta e não salva nenhum aluno
                     listaFuncionarios.clear();  // Limpa a lista caso o arquivo seja inválido
                     exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
@@ -181,7 +179,8 @@ public class FuncionarioController {
 
     @FXML
     public void removerFuncionario() {
-
+        Map<Integer, Funcionario> funcionarios = funcionarioService.getFuncionarios();
+        System.out.println(funcionarios.values());
     }
 
     @FXML

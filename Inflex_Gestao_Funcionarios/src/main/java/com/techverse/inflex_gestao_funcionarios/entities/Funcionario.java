@@ -1,10 +1,11 @@
 package com.techverse.inflex_gestao_funcionarios.entities;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Funcionario extends Pessoa {
+public class Funcionario extends Pessoa implements Serializable {
 
     private BigDecimal salario;
     private String cargo;

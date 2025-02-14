@@ -1,8 +1,9 @@
 package com.techverse.inflex_gestao_funcionarios.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     private String nome;
     private LocalDate dataNascimento;
