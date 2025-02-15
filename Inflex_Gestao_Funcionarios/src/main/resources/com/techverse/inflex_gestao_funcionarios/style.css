@@ -19,10 +19,35 @@
     -fx-font-size: 14px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
+    -fx-cursor: hand;
 }
 
 .button:hover {
-    -fx-background-color: #45a049;
+    -fx-background-color: #008626;
+}
+
+.button-removerFunc {
+    -fx-background-color: #FF0000;
+}
+
+.button-removerFunc:hover {
+    -fx-background-color: #B30000 ;
+}
+
+.button-voltar {
+    -fx-background-color: #4545ff;
+}
+
+.button-voltar:hover {
+    -fx-background-color: #0000ff;
+}
+
+.button-limparLista {
+    -fx-background-color: #ff9500;
+}
+
+.button-limparLista:hover{
+    -fx-background-color: #d77d00;
 }
 
 /* Estilo para a TableView */
@@ -34,10 +59,46 @@
 
 .table-column {
     -fx-text-fill: #333;
+    -fx-font-size: 12px;
+    -fx-padding: 5px;
+    -fx-alignment: center;
 }
 
-/* Estilos para a área de navegação */
-.hbox {
-    -fx-spacing: 10px;
-    -fx-alignment: center;
+/* Estilizando o ComboBox */
+.combo-box {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.combo-box:hover {
+    -fx-border-color: #4CAF50;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 5px;
+}
+
+.combo-box .arrow:hover {
+    -fx-background-color: #45a049;
+}
+
+.combo-box .text {
+    -fx-text-fill: #333;
+}
+
+/* Quando o ComboBox está aberto */
+.combo-box-popup {
+    -fx-background-color: white;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+}
+
+.label-info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
 }

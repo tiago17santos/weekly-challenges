@@ -2,6 +2,7 @@ package com.techverse.inflex_gestao_funcionarios.controllers;
 
 import com.techverse.inflex_gestao_funcionarios.MainApp;
 import com.techverse.inflex_gestao_funcionarios.entities.Funcionario;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.util.converter.BigDecimalStringConverter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,17 +21,42 @@ public class ImpressaoController {
 
     @FXML
     private ComboBox<String> comboBoxImpressao;
+
     @FXML
     private TableView<Funcionario> tabelaImpressao;
+
     @FXML
-    private TableColumn<Funcionario, String> colunaNomeImpressao;
+    private TableColumn<Funcionario, String> nomeColumn;
+
     @FXML
-    private TableColumn<Funcionario, String> colunaFuncaoImpressao;
+    private TableColumn<Funcionario, String> cargoColumn;
+
     @FXML
-    private TableColumn<Funcionario, String> colunaSalarioImpressao;
+    private TableColumn<Funcionario, BigDecimal> salarioColumn;
+
+    @FXML
+    private TableColumn<Funcionario, LocalDate> nascimentoColumn;
 
     public void initialize() {
-        // Carregar as opções do ComboBox
+        comboBoxsetItems();
+
+        // Definir o comportamento da ComboBox (o que acontece quando uma opção é selecionada)
+        comboBoxImpressao.setOnAction(event -> handleImpressaoSelecionada());
+
+        inicializarTabela();
+        tabelaImpressao.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // ajustar colunas automaticamente ao espaço disponível
+    }
+
+    private void inicializarTabela(){
+        nomeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNome()));
+        nascimentoColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDataNascimento()));
+        cargoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCargo()));
+        salarioColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSalario()));
+
+    }
+
+    // Carregar as opções do ComboBox
+    private void comboBoxsetItems(){
         comboBoxImpressao.setItems(FXCollections.observableArrayList(
                 "Todos Funcionários",
                 "Agrupados por Função",
@@ -37,16 +64,8 @@ public class ImpressaoController {
                 "Mais Velho",
                 "Ordem Alfabética",
                 "Total dos Salários",
-                "Quantos SM Recebem"
+                "Quantos SM Recebem Cada"
         ));
-
-        // Definir o comportamento da ComboBox (o que acontece quando uma opção é selecionada)
-        comboBoxImpressao.setOnAction(event -> handleImpressaoSelecionada());
-
-        // Definir o comportamento das colunas da tabela
-        colunaNomeImpressao.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNome()));
-        colunaFuncaoImpressao.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCargo()));
-        colunaSalarioImpressao.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSalario().toString()));
     }
 
     @FXML
@@ -73,7 +92,7 @@ public class ImpressaoController {
             case "Total dos Salários":
                 exibirTotalSalarios();
                 break;
-            case "Quantos SM Recebem":
+            case "Quantos SM Recebem Cada":
                 exibirQuantosSM();
                 break;
             default:

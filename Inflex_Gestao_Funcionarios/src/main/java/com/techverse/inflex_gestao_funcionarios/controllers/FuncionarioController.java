@@ -18,13 +18,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Scanner;
 
 public class FuncionarioController {
 
     @FXML
     private Button btnImportarFunc;
+
+    @FXML
+    private Button btnAplicarAumento;
+
+    @FXML
+    private Button btnRemoverFunc;
+
+    @FXML
+    private Button btnVoltar;
 
     @FXML
     private TableView<Funcionario> tabelaFuncionarios;
@@ -49,6 +57,7 @@ public class FuncionarioController {
     public void initialize() {
         funcionarioService = new FuncionarioService();
         inicializarTabela();
+        tabelaFuncionarios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
 
@@ -174,10 +183,15 @@ public class FuncionarioController {
             funcionarioService.excluirFuncionario(selectedIndex);
             tabelaFuncionarios.getSelectionModel().clearSelection();
             tabelaFuncionarios.getItems().remove(selectedIndex);
-            exibirAlerta("sucesso","Removido","Funcionário Removido","Funcionário removido com sucesso.");
-        }else{
-            exibirAlerta("error","Erro na remoção","Nenhum registro seleionado","Selecione a linha de registro do funcionário e tente novamente!");
+            exibirAlerta("sucesso", "Removido", "Funcionário Removido", "Funcionário removido com sucesso.");
+        } else {
+            exibirAlerta("error", "Erro na remoção", "Nenhum registro seleionado", "Selecione a linha de registro do funcionário e tente novamente!");
         }
+    }
+
+    @FXML
+    public void handleAplicarAumento() {
+        funcionarioService.aplicarAumento();
     }
 
     @FXML

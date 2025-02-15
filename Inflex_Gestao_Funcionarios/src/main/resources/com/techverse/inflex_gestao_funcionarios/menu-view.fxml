@@ -18,7 +18,7 @@
 
     <HBox spacing="20" alignment="center">
         <Button text="Adicionar / Remover Funcionário" fx:id="btnAdicionarRemoverFuncionario" onAction="#handleAdicionarRemoverFuncionario"/>
-        <Button text="Aplicar Aumento" fx:id="btnAplicarAumento" onAction="#handleAplicarAumento"/>
+
         <Button text="Impressões" fx:id="btnImpressao" onAction="#handleImpressao"/>
     </HBox>
 </VBox>

@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="center" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@style.css" />
     </stylesheets>
 
-    <Label text="Impressões" styleClass="label-title"/>
+    <Label text="Impressões" />
 
-    <!-- ComboBox para selecionar o tipo de impressão -->
-    <ComboBox fx:id="comboBoxImpressao" onAction="#handleImpressaoSelecionada" styleClass="button-impressao"/>
+    <HBox alignment="center" spacing="10">
+        <Label styleClass="label-info" text="Selecione o tipo de lista:" />
+        <ComboBox fx:id="comboBoxImpressao" onAction="#handleImpressaoSelecionada" />
+    </HBox>
 
-    <!-- A TableView mostrará os resultados de acordo com a escolha -->
-    <TableView fx:id="tabelaImpressao" styleClass="table-view">
+    <TableView fx:id="tabelaImpressao" layoutX="50.0" layoutY="50.0" prefHeight="222.0" prefWidth="600.0">
         <columns>
-            <TableColumn text="Nome" fx:id="colunaNomeImpressao" styleClass="table-column"/>
-            <TableColumn text="Função" fx:id="colunaFuncaoImpressao" styleClass="table-column"/>
-            <TableColumn text="Salário" fx:id="colunaSalarioImpressao" styleClass="table-column"/>
+            <TableColumn fx:id="nomeColumn" text="Nome"/>
+            <TableColumn fx:id="nascimentoColumn" text="Nascimento"/>
+            <TableColumn fx:id="salarioColumn" text="Salário"/>
+            <TableColumn fx:id="cargoColumn" text="Função"/>
         </columns>
     </TableView>
 
-    <Button text="Voltar" onAction="#handleVoltarMenu" styleClass="button"/>
-    <Button text="Limpar Lista" onAction="#handleLimparLista" styleClass="button"/>
+    <HBox alignment="center" spacing="20">
+        <Button onAction="#handleLimparLista" styleClass="button-limparLista" text="Limpar Lista" />
+        <Button onAction="#handleVoltarMenu" styleClass="button-voltar" text="Voltar" />
+      <padding>
+         <Insets bottom="10.0" />
+      </padding>
+    </HBox>
+
 </VBox>
