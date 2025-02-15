@@ -17,27 +17,16 @@ public class FuncionarioService {
      3.4 – Os funcionários receberam 10% de aumento de salário, atualizar a lista de funcionários com novo valor.
      */
 
-    private static FuncionarioService instancia;
     private HashMap<Integer, Funcionario> listaFuncionarios = new HashMap<>();
 
     public FuncionarioService() {
     }
 
-    // Metodo para obter a instância única
-    public static FuncionarioService getInstance() {
-        if (instancia == null) {
-            instancia = new FuncionarioService();
-        }
-        return instancia;
-    }
 
     public void aplicarAumento() {
         double percentual = 10.0;
         BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);  // Converte o percentual para BigDecimal
 
-        listaFuncionarios.values().forEach(f -> {
-            System.out.println(f.getNome());
-        });
 
         listaFuncionarios.values().forEach(funcionario -> {
             BigDecimal salarioAtual = funcionario.getSalario();
@@ -74,14 +63,14 @@ public class FuncionarioService {
 
     public void excluirFuncionario(int id) {
 
-        if (listaFuncionarios.containsKey(id)){
+        if (listaFuncionarios.containsKey(id)) {
             listaFuncionarios.remove(id);
         }
         salvarFuncionarios();
     }
 
     public HashMap<Integer, Funcionario> getFuncionarios() {
-        listaFuncionarios.values().forEach(f -> System.out.println(f.getNome()));
+        listaFuncionarios.values().forEach(f -> System.out.println(f.getSalario()));
         return listaFuncionarios;
     }
 

@@ -106,7 +106,7 @@ public class FuncionarioController {
 
                     // Verifica se a linha tem exatamente 4 colunas (nome,data_nascimento,salario,cargo)
                     if (dados.length != 4) {
-                        exibirAlerta("error", "Erro de Formato", "Formato Incorreto", "A linha não está no formato esperado. \nCada linha deve ter 'nome,data_nascimento,salario,cargo'. \nLinha ignorada: " + linha);
+                        exibirAlerta("erro", "Erro de Formato", "Formato Incorreto", "A linha não está no formato esperado. \nCada linha deve ter 'nome,data_nascimento,salario,cargo'. \nLinha ignorada: " + linha);
                         arquivoValido = false;
                         throw new Exception("Linha vazia encontrada. Interrompendo processamento.");
                     }
@@ -116,7 +116,7 @@ public class FuncionarioController {
                         String[] dataParts = dados[1].split("/");
 
                         if (dataParts.length != 3) {
-                            exibirAlerta("error", "Erro de Data", "Formato de Data Inválido", "Data inválida na linha: " + linha);
+                            exibirAlerta("erro", "Erro de Data", "Formato de Data Inválido", "Data inválida na linha: " + linha);
                             arquivoValido = false;
                             throw new Exception("Data inválida. Interrompendo processamento.");
                         }
@@ -130,13 +130,13 @@ public class FuncionarioController {
                         String cargo = dados[3];
 
                         if (mes < 1 || mes > 12 || dia < 1 || dia > 31) {
-                            exibirAlerta("error", "Erro de Data", "Data Inválida", "Data inválida na linha: " + linha);
+                            exibirAlerta("erro", "Erro de Data", "Data Inválida", "Data inválida na linha: " + linha);
                             arquivoValido = false;
                             throw new Exception("Data inválida. Interrompendo processamento.");
                         }
 
                         if (salario.compareTo(BigDecimal.ZERO) <= 0) {
-                            exibirAlerta("error", "Erro de Salário", "Salário Inválido", "Salário inválido na linha: " + linha);
+                            exibirAlerta("erro", "Erro de Salário", "Salário Inválido", "Salário inválido na linha: " + linha);
                             arquivoValido = false;
                             throw new Exception("Salário inválido. Interrompendo processamento.");
                         }
@@ -145,7 +145,7 @@ public class FuncionarioController {
                         listaFuncionarios.add(func);
 
                     } catch (Exception e) {
-                        exibirAlerta("error", "Erro ao Processar Linha", "Erro de Dados", "Erro ao processar dados da linha: " + linha);
+                        exibirAlerta("erro", "Erro ao Processar Linha", "Erro de Dados", "Erro ao processar dados da linha: " + linha);
                         arquivoValido = false;
                     }
                 }
@@ -158,7 +158,7 @@ public class FuncionarioController {
                     funcionarioService.salvarFuncionarios();
                 } else {
                     listaFuncionarios.clear();
-                    exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
+                    exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
                 }
 
                 if (listaFuncionarios.isEmpty()) {
@@ -168,7 +168,7 @@ public class FuncionarioController {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                exibirAlerta("error", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s). Nenhum aluno foi adicionado.");
+                exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s). Nenhum aluno foi adicionado.");
             }
         }
 
@@ -185,13 +185,16 @@ public class FuncionarioController {
             tabelaFuncionarios.getItems().remove(selectedIndex);
             exibirAlerta("sucesso", "Removido", "Funcionário Removido", "Funcionário removido com sucesso.");
         } else {
-            exibirAlerta("error", "Erro na remoção", "Nenhum registro seleionado", "Selecione a linha de registro do funcionário e tente novamente!");
+            exibirAlerta("erro", "Erro na remoção", "Nenhum registro seleionado", "Selecione a linha de registro do funcionário e tente novamente!");
         }
     }
 
     @FXML
     public void handleAplicarAumento() {
         funcionarioService.aplicarAumento();
+        funcionarioService.salvarFuncionarios();
+        inicializarTabela();
+        exibirAlerta("sucesso","Aumento Aplicado","","Aumento de 10% aplicado a todos os funcionários");
     }
 
     @FXML

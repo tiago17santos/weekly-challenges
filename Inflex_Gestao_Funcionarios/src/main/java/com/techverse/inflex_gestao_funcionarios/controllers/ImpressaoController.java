@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.util.converter.BigDecimalStringConverter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -47,7 +46,7 @@ public class ImpressaoController {
         tabelaImpressao.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // ajustar colunas automaticamente ao espaço disponível
     }
 
-    private void inicializarTabela(){
+    private void inicializarTabela() {
         nomeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNome()));
         nascimentoColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDataNascimento()));
         cargoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCargo()));
@@ -56,7 +55,7 @@ public class ImpressaoController {
     }
 
     // Carregar as opções do ComboBox
-    private void comboBoxsetItems(){
+    private void comboBoxsetItems() {
         comboBoxImpressao.setItems(FXCollections.observableArrayList(
                 "Todos Funcionários",
                 "Agrupados por Função",
