@@ -17,7 +17,6 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("menu-view.fxml"));
         scene = new Scene(loadFXML("menu-view"), 600, 400);
         stage.setTitle("Gestão de Funcionários");
         stage.setScene(scene);

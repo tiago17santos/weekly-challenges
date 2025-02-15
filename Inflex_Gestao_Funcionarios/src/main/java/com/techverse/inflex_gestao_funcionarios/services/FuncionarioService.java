@@ -33,16 +33,15 @@ public class FuncionarioService {
 
     public void aplicarAumento() {
         double percentual = 10.0;
-        BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);
+        BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);  // Converte o percentual para BigDecimal
 
         listaFuncionarios.values().forEach(funcionario -> {
             BigDecimal salarioAtual = funcionario.getSalario();
 
+            // Calcula o novo salário
             BigDecimal aumento = BigDecimal.ONE.add(percentualBigDecimal); // 1 + percentual
-
-            // Multiplica aumento pelo salarioAtual e arredonda o valor para 2 casas decimais
-            BigDecimal novoSalario = salarioAtual.multiply(aumento).setScale(2, RoundingMode.HALF_UP);
-            funcionario.setSalario(novoSalario);
+            BigDecimal novoSalario = salarioAtual.multiply(aumento).setScale(2, RoundingMode.HALF_UP); // Multiplica e arredonda o valor
+            funcionario.setSalario(novoSalario); // Define o novo salário
         });
     }
 
