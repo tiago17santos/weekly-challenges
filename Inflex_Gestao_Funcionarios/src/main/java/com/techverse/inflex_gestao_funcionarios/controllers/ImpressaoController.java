@@ -2,7 +2,7 @@ package com.techverse.inflex_gestao_funcionarios.controllers;
 
 import com.techverse.inflex_gestao_funcionarios.MainApp;
 import com.techverse.inflex_gestao_funcionarios.entities.Funcionario;
-import javafx.beans.property.SimpleObjectProperty;
+import com.techverse.inflex_gestao_funcionarios.services.FuncionarioRelatorioService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +12,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 
 public class ImpressaoController {
 
@@ -31,12 +30,18 @@ public class ImpressaoController {
     private TableColumn<Funcionario, String> cargoColumn;
 
     @FXML
-    private TableColumn<Funcionario, BigDecimal> salarioColumn;
+    private TableColumn<Funcionario, String> salarioColumn;
 
     @FXML
-    private TableColumn<Funcionario, LocalDate> nascimentoColumn;
+    private TableColumn<Funcionario, String> nascimentoColumn;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //Formatar a data
+    DecimalFormat decimalFormat = new DecimalFormat("###,###.##"); //Formatar salário
+
+    FuncionarioRelatorioService funcionarioRelatorioService;
 
     public void initialize() {
+        funcionarioRelatorioService = new FuncionarioRelatorioService();
         comboBoxsetItems();
 
         // Definir o comportamento da ComboBox (o que acontece quando uma opção é selecionada)
@@ -48,15 +53,21 @@ public class ImpressaoController {
 
     private void inicializarTabela() {
         nomeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNome()));
-        nascimentoColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDataNascimento()));
+        nascimentoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                formatter.format(cellData.getValue().getDataNascimento())
+        ));
+        salarioColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                decimalFormat.format(cellData.getValue().getSalario())
+        ));
         cargoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCargo()));
-        salarioColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSalario()));
+
 
     }
 
     // Carregar as opções do ComboBox
     private void comboBoxsetItems() {
         comboBoxImpressao.setItems(FXCollections.observableArrayList(
+                "Selecione..",
                 "Todos Funcionários",
                 "Agrupados por Função",
                 "Aniversariantes",
@@ -65,6 +76,7 @@ public class ImpressaoController {
                 "Total dos Salários",
                 "Quantos SM Recebem Cada"
         ));
+        comboBoxImpressao.setValue("Selecione..");
     }
 
     @FXML
@@ -73,6 +85,9 @@ public class ImpressaoController {
         String opcao = comboBoxImpressao.getValue();
 
         switch (opcao) {
+            case "Selecione..":
+                handleLimparLista();
+                break;
             case "Todos Funcionários":
                 exibirTodosFuncionarios();
                 break;
@@ -99,19 +114,14 @@ public class ImpressaoController {
         }
     }
 
-    // Exemplo de método para exibir todos os funcionários
+
     private void exibirTodosFuncionarios() {
-        ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList(getListaFuncionarios());
+        ObservableList<Funcionario> funcionarios = funcionarioRelatorioService.listarFuncionarios();
+        funcionarioRelatorioService.formatarCampos();
         tabelaImpressao.setItems(funcionarios);
     }
 
-    private List<Funcionario> getListaFuncionarios() {
-        // Aqui você pode recuperar a lista de funcionários de sua base de dados ou serviço
-        return List.of(new Funcionario("Maria", LocalDate.of(2025, 2, 12), new BigDecimal("2500.00"), "Analista"),
-                new Funcionario("João", LocalDate.of(2005, 2, 12), new BigDecimal("3500.00"), "Desenvolvedor"));
-    }
 
-    // Exemplo de método para exibir funcionários agrupados por função (isso seria mais complexo, com agrupamento)
     private void exibirAgrupadosPorFuncao() {
         // Lógica para exibir os funcionários agrupados por função
     }
@@ -149,6 +159,7 @@ public class ImpressaoController {
 
     @FXML
     public void handleLimparLista() {
-
+        tabelaImpressao.getItems().clear();
+        comboBoxImpressao.setValue("Selecione..");
     }
 }

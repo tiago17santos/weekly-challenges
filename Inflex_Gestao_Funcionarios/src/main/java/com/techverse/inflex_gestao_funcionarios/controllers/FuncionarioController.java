@@ -3,6 +3,7 @@ package com.techverse.inflex_gestao_funcionarios.controllers;
 import com.techverse.inflex_gestao_funcionarios.MainApp;
 import com.techverse.inflex_gestao_funcionarios.entities.Funcionario;
 import com.techverse.inflex_gestao_funcionarios.services.FuncionarioService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +18,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class FuncionarioController {
@@ -44,10 +47,13 @@ public class FuncionarioController {
     private TableColumn<Funcionario, String> cargoColumn;
 
     @FXML
-    private TableColumn<Funcionario, BigDecimal> salarioColumn;
+    private TableColumn<Funcionario, String> salarioColumn;
 
     @FXML
-    private TableColumn<Funcionario, LocalDate> nascimentoColumn;
+    private TableColumn<Funcionario, String> nascimentoColumn;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //Formatar a data
+    DecimalFormat decimalFormat = new DecimalFormat("###,###.##"); //Formatar salário
 
     private FuncionarioService funcionarioService;
 
@@ -65,10 +71,15 @@ public class FuncionarioController {
     public void inicializarTabela() {
         ObservableList<Funcionario> funcionariosList = funcionarioService.carregarFuncionarios();
 
+
         // Definir como as colunas serão populadas
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        nascimentoColumn.setCellValueFactory(new PropertyValueFactory<>("dataNascimento"));
-        salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
+        nascimentoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                formatter.format(cellData.getValue().getDataNascimento())
+        ));
+        salarioColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                decimalFormat.format(cellData.getValue().getSalario())
+        ));
         cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargo"));
 
         // Adicionar os dados à tabela
@@ -167,6 +178,7 @@ public class FuncionarioController {
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+
             } catch (Exception e) {
                 exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s). Nenhum aluno foi adicionado.");
             }
@@ -194,7 +206,7 @@ public class FuncionarioController {
         funcionarioService.aplicarAumento();
         funcionarioService.salvarFuncionarios();
         inicializarTabela();
-        exibirAlerta("sucesso","Aumento Aplicado","","Aumento de 10% aplicado a todos os funcionários");
+        exibirAlerta("sucesso", "Aumento Aplicado", "", "Aumento de 10% aplicado a todos os funcionários");
     }
 
     @FXML

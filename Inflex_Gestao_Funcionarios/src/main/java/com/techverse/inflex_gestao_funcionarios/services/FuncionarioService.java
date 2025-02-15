@@ -41,6 +41,7 @@ public class FuncionarioService {
 
     }
 
+
     public void salvarFuncionarios() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\tiago\\Desktop\\func.obj"))) {
             out.writeObject(listaFuncionarios);
@@ -67,11 +68,6 @@ public class FuncionarioService {
             listaFuncionarios.remove(id);
         }
         salvarFuncionarios();
-    }
-
-    public HashMap<Integer, Funcionario> getFuncionarios() {
-        listaFuncionarios.values().forEach(f -> System.out.println(f.getSalario()));
-        return listaFuncionarios;
     }
 
 

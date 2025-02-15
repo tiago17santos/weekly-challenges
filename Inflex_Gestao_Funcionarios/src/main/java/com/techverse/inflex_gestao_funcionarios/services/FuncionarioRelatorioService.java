@@ -1,5 +1,8 @@
 package com.techverse.inflex_gestao_funcionarios.services;
 
+import com.techverse.inflex_gestao_funcionarios.entities.Funcionario;
+import javafx.collections.ObservableList;
+
 public class FuncionarioRelatorioService {
     /*
     3.3 – Imprimir todos os funcionários com todas suas informações, sendo que:
@@ -12,4 +15,16 @@ public class FuncionarioRelatorioService {
     3.12 – Imprimir quantos salários mínimos ganha cada funcionário, considerando que o salário mínimo é R$1212.00.
 
     * */
+
+    FuncionarioService funcionarioService;
+
+    public FuncionarioRelatorioService() {
+        funcionarioService = new FuncionarioService();
+    }
+
+
+    public ObservableList<Funcionario> listarFuncionarios() {
+        return funcionarioService.carregarFuncionarios();
+    }
+
 }
