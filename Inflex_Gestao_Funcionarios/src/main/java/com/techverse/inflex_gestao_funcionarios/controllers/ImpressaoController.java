@@ -51,6 +51,7 @@ public class ImpressaoController {
         tabelaImpressao.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // ajustar colunas automaticamente ao espaço disponível
     }
 
+    @FXML
     private void inicializarTabela() {
         nomeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNome()));
         nascimentoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -64,6 +65,7 @@ public class ImpressaoController {
 
     }
 
+    @FXML
     // Carregar as opções do ComboBox
     private void comboBoxsetItems() {
         comboBoxImpressao.setItems(FXCollections.observableArrayList(
@@ -87,69 +89,86 @@ public class ImpressaoController {
         switch (opcao) {
             case "Selecione..":
                 handleLimparLista();
+                setarVisibilidade(true,true,true,true);
                 break;
             case "Todos Funcionários":
                 exibirTodosFuncionarios();
+                setarVisibilidade(true,true,true,true);
                 break;
             case "Agrupados por Função":
                 exibirAgrupadosPorFuncao();
+                setarVisibilidade(true,true,false,false);
                 break;
             case "Aniversariantes":
                 exibirAniversariantes();
+                setarVisibilidade(true,true,true,true);
                 break;
             case "Mais Velho":
-                exibirMaisVelho();
+                exibirFuncMaisVelho();
+                setarVisibilidade(true,false,false,true);
                 break;
             case "Ordem Alfabética":
-                exibirOrdemAlfabetica();
+                exibirFuncOrdemAlfabetica();
+                setarVisibilidade(true,false,false,true);
                 break;
             case "Total dos Salários":
                 exibirTotalSalarios();
+                setarVisibilidade(false,false,true,false);
+                salarioColumn.setText("Total Salários");
                 break;
             case "Quantos SM Recebem Cada":
-                exibirQuantosSM();
+                exibirQuantosSMRecebem();
+                setarVisibilidade(true,true,true,false);
+                salarioColumn.setText("Total Salário Mínimo");
                 break;
             default:
                 break;
         }
     }
 
-
-    private void exibirTodosFuncionarios() {
-        ObservableList<Funcionario> funcionarios = funcionarioRelatorioService.listarFuncionarios();
-        funcionarioRelatorioService.formatarCampos();
-        tabelaImpressao.setItems(funcionarios);
+    @FXML
+    public void setarVisibilidade(Boolean nome,Boolean cargo,Boolean salario,Boolean nascimento){
+        nomeColumn.setVisible(nome);
+        cargoColumn.setVisible(cargo);
+        salarioColumn.setVisible(salario);
+        nascimentoColumn.setVisible(nascimento);
     }
 
 
+    @FXML
+    private void exibirTodosFuncionarios() {
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarFuncionarios());
+    }
+
+    @FXML
     private void exibirAgrupadosPorFuncao() {
-        // Lógica para exibir os funcionários agrupados por função
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarPorFuncao());
     }
 
 
     @FXML
     public void exibirAniversariantes() {
-
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarAniversariantes());
     }
 
     @FXML
-    public void exibirMaisVelho() {
-
+    public void exibirFuncMaisVelho() {
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarFuncMaisVelho());
     }
 
     @FXML
-    public void exibirOrdemAlfabetica() {
-
+    public void exibirFuncOrdemAlfabetica() {
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarFuncOrdemAlbetica());
     }
 
     @FXML
     public void exibirTotalSalarios() {
-
+       //tabelaImpressao.setItems(funcionarioRelatorioService.listarTotalSalarios());
     }
 
     @FXML
-    public void exibirQuantosSM() {
-
+    public void exibirQuantosSMRecebem() {
+        tabelaImpressao.setItems(funcionarioRelatorioService.listarQuantosSMRecebem());
     }
 
     @FXML
