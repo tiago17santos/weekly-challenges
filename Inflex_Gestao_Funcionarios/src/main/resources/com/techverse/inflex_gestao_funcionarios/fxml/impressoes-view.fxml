@@ -12,7 +12,7 @@
 
 <VBox alignment="center" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@../css/style.css" />
     </stylesheets>
 
     <Label text="Impressões" />

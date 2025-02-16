@@ -8,7 +8,7 @@
 
 <VBox alignment="center" prefHeight="400.0" prefWidth="600.0" spacing="70.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.MenuController">
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@../css/style.css" />
     </stylesheets>
 
     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bem-vindo ao Sistema de Gestão de Funcionários" />
