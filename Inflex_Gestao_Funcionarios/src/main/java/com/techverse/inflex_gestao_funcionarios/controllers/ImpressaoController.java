@@ -129,7 +129,7 @@ public class ImpressaoController {
         // Após atualizar a tabela, forçar o ajuste das colunas
         tabelaImpressao.layout();
         tabelaImpressao.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Força o ajuste do layout
-        
+
     }
 
     @FXML

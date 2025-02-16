@@ -11,6 +11,8 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 
 public class FuncionarioService {
+    private final String diretorio = FuncionarioService.class.getResource("/com/techverse/inflex_gestao_funcionarios/arquivoSerial/funcionarios.obj").getPath();
+
     private HashMap<Integer, Funcionario> listaFuncionarios = new HashMap<>();
 
     public FuncionarioService() {
@@ -18,7 +20,7 @@ public class FuncionarioService {
     }
 
     public ObservableList<Funcionario> carregarFuncionarios() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("C:\\Users\\tiago\\Desktop\\func.obj"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(diretorio))) {
             listaFuncionarios = (HashMap<Integer, Funcionario>) in.readObject();
         } catch (EOFException e) { // Se o arquivo estiver vazio ou se o final do arquivo for atingido
             return FXCollections.observableArrayList();
@@ -29,7 +31,7 @@ public class FuncionarioService {
     }
 
     public void salvarFuncionarios(HashMap<Integer, Funcionario> funcionarios) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\tiago\\Desktop\\func.obj"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(diretorio))) {
             out.writeObject(funcionarios);
             out.flush(); //garantir que os dados sejam escritos no arquivo antes de terminar a execução
             carregarFuncionarios();
