@@ -11,7 +11,6 @@ public class Pessoa implements Serializable {
     public Pessoa(String nome, LocalDate dataNascimento) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-
     }
 
     public String getNome() {

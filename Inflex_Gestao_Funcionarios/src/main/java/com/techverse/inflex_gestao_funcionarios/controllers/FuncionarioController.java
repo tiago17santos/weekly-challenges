@@ -67,11 +67,9 @@ public class FuncionarioController {
         tabelaFuncionarios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-
     @FXML
     public void inicializarTabela() {
         ObservableList<Funcionario> funcionariosList = funcionarioService.carregarFuncionarios();
-
 
         // Definir como as colunas serão populadas
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -86,7 +84,6 @@ public class FuncionarioController {
         // Adicionar os dados à tabela
         tabelaFuncionarios.setItems(funcionariosList);
     }
-
 
     @FXML
     public void importarFuncionarios() {
@@ -174,7 +171,7 @@ public class FuncionarioController {
                         contador++;
                     }
                     funcionarioService.salvarFuncionarios(funcionarioHashMap);
-                    exibirAlerta("sucesso","Cadastro","Cadastro Feito","Funcionários cadastrado com sucesso");
+                    exibirAlerta("sucesso", "Cadastro", "Cadastro Feito", "Funcionários cadastrado com sucesso");
                 } else {
                     listaFuncionarios.clear();
                     exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
@@ -191,13 +188,11 @@ public class FuncionarioController {
                 exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s). Nenhum aluno foi adicionado.");
             }
         }
-
     }
 
     @FXML
     public void removerFuncionario() {
         int selectedIndex = tabelaFuncionarios.getSelectionModel().getSelectedIndex();
-        Funcionario func = tabelaFuncionarios.getSelectionModel().getSelectedItem();
 
         if (selectedIndex >= 0) {
             funcionarioService.excluirFuncionario(selectedIndex);

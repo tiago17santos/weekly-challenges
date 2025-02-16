@@ -61,8 +61,6 @@ public class ImpressaoController {
                 decimalFormat.format(cellData.getValue().getSalario())
         ));
         cargoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCargo()));
-
-
     }
 
     @FXML
@@ -126,10 +124,8 @@ public class ImpressaoController {
             default:
                 break;
         }
-        // Após atualizar a tabela, forçar o ajuste das colunas
-        tabelaImpressao.layout();
+        tabelaImpressao.layout(); // Após atualizar a tabela, forçar o ajuste das colunas
         tabelaImpressao.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Força o ajuste do layout
-
     }
 
     @FXML
@@ -139,7 +135,6 @@ public class ImpressaoController {
         salarioColumn.setVisible(salario);
         nascimentoColumn.setVisible(nascimento);
     }
-
 
     @FXML
     private void exibirTodosFuncionarios() {

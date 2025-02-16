@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox alignment="center" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
+<?import java.net.URL?>
+<VBox alignment="center" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22"
+      fx:controller="com.techverse.inflex_gestao_funcionarios.controllers.ImpressaoController">
     <stylesheets>
-        <URL value="@../css/style.css" />
+        <URL value="@../css/style.css"/>
     </stylesheets>
 
-    <Label text="Impressões" />
+    <Label text="Impressões"/>
 
     <HBox alignment="center" spacing="10">
-        <Label styleClass="label-info" text="Selecione o tipo de lista:" />
-        <ComboBox fx:id="comboBoxImpressao" onAction="#handleImpressaoSelecionada" />
+        <Label styleClass="label-info" text="Selecione o tipo de lista:"/>
+        <ComboBox fx:id="comboBoxImpressao" onAction="#handleImpressaoSelecionada"/>
     </HBox>
 
     <TableView fx:id="tabelaImpressao" layoutX="50.0" layoutY="50.0" prefHeight="222.0" prefWidth="600.0">
@@ -32,11 +28,10 @@
     </TableView>
 
     <HBox alignment="center" spacing="20">
-        <Button onAction="#handleLimparLista" styleClass="button-limparLista" text="Limpar Lista" />
-        <Button onAction="#handleVoltarMenu" styleClass="button-voltar" text="Voltar" />
-      <padding>
-         <Insets bottom="10.0" />
-      </padding>
+        <Button onAction="#handleLimparLista" styleClass="button-limparLista" text="Limpar Lista"/>
+        <Button onAction="#handleVoltarMenu" styleClass="button-voltar" text="Voltar"/>
+        <padding>
+            <Insets bottom="10.0"/>
+        </padding>
     </HBox>
-
 </VBox>

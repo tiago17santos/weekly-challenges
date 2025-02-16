@@ -35,7 +35,6 @@ public class FuncionarioRelatorioService {
                 funcionariosDesagrupados.add(new Funcionario(funcionario.getNome(), funcionario.getDataNascimento(), funcionario.getSalario(), cargo));
             });
         });
-
         return funcionariosDesagrupados;
     }
 
@@ -44,7 +43,6 @@ public class FuncionarioRelatorioService {
                 .filter(func -> func.getDataNascimento().getMonth().equals(Month.OCTOBER) ||
                         func.getDataNascimento().getMonth().equals(Month.DECEMBER))
                 .collect(Collectors.toList());
-
         return FXCollections.observableArrayList(aniversariantes);
     }
 
@@ -52,7 +50,6 @@ public class FuncionarioRelatorioService {
         Funcionario maisVelho = funcionarioService.carregarFuncionarios().stream()
                 .min(Comparator.comparing(Funcionario::getDataNascimento)) // Metodo min para comparar datas e pegar mais antigas(retorna o funcionario mais velho)
                 .orElse(null); // Retorna null caso não haja funcionários
-
         return FXCollections.observableArrayList(maisVelho);
     }
 
@@ -83,5 +80,4 @@ public class FuncionarioRelatorioService {
 
         return FXCollections.observableArrayList(funcionarios);
     }
-
 }

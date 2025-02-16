@@ -12,7 +12,6 @@ public class MainApp extends Application {
 
     private static Scene scene;
 
-
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("menu-view"), 600, 400);
@@ -31,7 +30,6 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();  // Isso garante que o nó raiz é do tipo Parent
     }
-
 
     public static void main(String[] args) {
         launch();
