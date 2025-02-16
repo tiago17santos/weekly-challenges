@@ -190,6 +190,7 @@ public class FuncionarioController {
         }
     }
 
+
     @FXML
     public void removerFuncionario() {
         int selectedIndex = tabelaFuncionarios.getSelectionModel().getSelectedIndex();

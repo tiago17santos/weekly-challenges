@@ -27,7 +27,8 @@ public class MainApp extends Application {
     //Metodo para carregar o arquivo FXML e garantir que retorna um Parent
     private static Parent loadFXML(String fxml) throws IOException {
         // Carrega o arquivo FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml + ".fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/com/techverse/inflex_gestao_funcionarios/fxml/" + fxml + ".fxml"));
         return fxmlLoader.load();  // Isso garante que o nó raiz é do tipo Parent
     }
 

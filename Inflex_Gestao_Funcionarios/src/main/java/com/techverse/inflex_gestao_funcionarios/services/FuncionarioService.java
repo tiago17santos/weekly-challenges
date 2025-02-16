@@ -44,7 +44,6 @@ public class FuncionarioService {
         if (listaFuncionarios.containsKey(id)) {
             listaFuncionarios.remove(id);
         }
-        listaFuncionarios.values().forEach(f -> System.out.println(f.getNome()));
         salvarFuncionarios(listaFuncionarios);
     }
 
