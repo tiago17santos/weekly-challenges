@@ -11,44 +11,10 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 
 public class FuncionarioService {
-    /*
-     3.1 – Inserir todos os funcionários, na mesma ordem e informações da tabela acima.
-     3.2 – Remover o funcionário “João” da lista.
-     3.4 – Os funcionários receberam 10% de aumento de salário, atualizar a lista de funcionários com novo valor.
-     */
-
     private HashMap<Integer, Funcionario> listaFuncionarios = new HashMap<>();
 
     public FuncionarioService() {
-    }
-
-
-    public void aplicarAumento() {
-        double percentual = 10.0;
-        BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);  // Converte o percentual para BigDecimal
-
-
-        listaFuncionarios.values().forEach(funcionario -> {
-            BigDecimal salarioAtual = funcionario.getSalario();
-
-            // Calcula o novo salário
-            BigDecimal aumento = BigDecimal.ONE.add(percentualBigDecimal); // 1 + percentual
-            BigDecimal novoSalario = salarioAtual.multiply(aumento).setScale(2, RoundingMode.HALF_UP); // Multiplica e arredonda o valor
-
-            funcionario.setSalario(novoSalario); // Define o novo salário
-        });
-
-
-    }
-
-
-    public void salvarFuncionarios() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\tiago\\Desktop\\func.obj"))) {
-            out.writeObject(listaFuncionarios);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        carregarFuncionarios();
     }
 
     public ObservableList<Funcionario> carregarFuncionarios() {
@@ -62,12 +28,38 @@ public class FuncionarioService {
         return FXCollections.observableArrayList(listaFuncionarios.values());
     }
 
-    public void excluirFuncionario(int id) {
+    public void salvarFuncionarios(HashMap<Integer, Funcionario> funcionarios) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\tiago\\Desktop\\func.obj"))) {
+            out.writeObject(funcionarios);
+            out.flush(); //garantir que os dados sejam escritos no arquivo antes de terminar a execução
+            carregarFuncionarios();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void excluirFuncionario(int id) {
         if (listaFuncionarios.containsKey(id)) {
             listaFuncionarios.remove(id);
         }
-        salvarFuncionarios();
+        listaFuncionarios.values().forEach(f -> System.out.println(f.getNome()));
+        salvarFuncionarios(listaFuncionarios);
+    }
+
+    public void aplicarAumento() {
+        double percentual = 10.0;
+        BigDecimal percentualBigDecimal = new BigDecimal(percentual / 100);  // Converte o percentual para BigDecimal
+
+        listaFuncionarios.values().forEach(funcionario -> {
+            BigDecimal salarioAtual = funcionario.getSalario();
+
+            // Calcula o novo salário
+            BigDecimal aumento = BigDecimal.ONE.add(percentualBigDecimal); // 1 + percentual
+            BigDecimal novoSalario = salarioAtual.multiply(aumento).setScale(2, RoundingMode.HALF_UP); // Multiplica e arredonda o valor
+
+            funcionario.setSalario(novoSalario); // Define o novo salário
+        });
+        salvarFuncionarios(listaFuncionarios);
     }
 
 

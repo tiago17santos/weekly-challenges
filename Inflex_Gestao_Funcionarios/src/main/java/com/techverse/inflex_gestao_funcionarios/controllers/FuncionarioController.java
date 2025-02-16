@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class FuncionarioController {
@@ -166,7 +167,14 @@ public class FuncionarioController {
                 tabelaFuncionarios.setItems(funcionariosObservableList);
 
                 if (arquivoValido) {
-                    funcionarioService.salvarFuncionarios();
+                    int contador = 0;
+                    HashMap<Integer, Funcionario> funcionarioHashMap = new HashMap<>();
+                    for (Funcionario func : listaFuncionarios) {
+                        funcionarioHashMap.put(contador, func);
+                        contador++;
+                    }
+                    funcionarioService.salvarFuncionarios(funcionarioHashMap);
+                    exibirAlerta("sucesso","Cadastro","Cadastro Feito","Funcionários cadastrado com sucesso");
                 } else {
                     listaFuncionarios.clear();
                     exibirAlerta("erro", "Erro no Arquivo", "Arquivo Inválido", "O arquivo contém erro(s) de formatação. Nenhum aluno foi adicionado.");
@@ -204,7 +212,6 @@ public class FuncionarioController {
     @FXML
     public void handleAplicarAumento() {
         funcionarioService.aplicarAumento();
-        funcionarioService.salvarFuncionarios();
         inicializarTabela();
         exibirAlerta("sucesso", "Aumento Aplicado", "", "Aumento de 10% aplicado a todos os funcionários");
     }

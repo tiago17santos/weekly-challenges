@@ -5,13 +5,13 @@ import com.techverse.inflex_gestao_funcionarios.entities.Funcionario;
 import com.techverse.inflex_gestao_funcionarios.services.FuncionarioRelatorioService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
@@ -89,37 +89,39 @@ public class ImpressaoController {
         switch (opcao) {
             case "Selecione..":
                 handleLimparLista();
-                setarVisibilidade(true,true,true,true);
+                setarVisibilidade(true, true, true, true);
+                salarioColumn.setText("Sálario");
                 break;
             case "Todos Funcionários":
                 exibirTodosFuncionarios();
-                setarVisibilidade(true,true,true,true);
+                setarVisibilidade(true, true, true, true);
+                salarioColumn.setText("Sálario");
                 break;
             case "Agrupados por Função":
                 exibirAgrupadosPorFuncao();
-                setarVisibilidade(true,true,false,false);
+                setarVisibilidade(true, true, false, false);
                 break;
             case "Aniversariantes":
                 exibirAniversariantes();
-                setarVisibilidade(true,true,true,true);
+                setarVisibilidade(true, true, true, true);
+                salarioColumn.setText("Sálario");
                 break;
             case "Mais Velho":
                 exibirFuncMaisVelho();
-                setarVisibilidade(true,false,false,true);
+                setarVisibilidade(true, false, false, true);
                 break;
             case "Ordem Alfabética":
                 exibirFuncOrdemAlfabetica();
-                setarVisibilidade(true,false,false,true);
+                setarVisibilidade(true, false, false, true);
                 break;
             case "Total dos Salários":
                 exibirTotalSalarios();
-                setarVisibilidade(false,false,true,false);
-                salarioColumn.setText("Total Salários");
+                setarVisibilidade(false, false, true, false);
                 break;
             case "Quantos SM Recebem Cada":
                 exibirQuantosSMRecebem();
-                setarVisibilidade(true,true,true,false);
-                salarioColumn.setText("Total Salário Mínimo");
+                setarVisibilidade(true, true, true, false);
+                salarioColumn.setText("Sálario");
                 break;
             default:
                 break;
@@ -127,7 +129,7 @@ public class ImpressaoController {
     }
 
     @FXML
-    public void setarVisibilidade(Boolean nome,Boolean cargo,Boolean salario,Boolean nascimento){
+    public void setarVisibilidade(Boolean nome, Boolean cargo, Boolean salario, Boolean nascimento) {
         nomeColumn.setVisible(nome);
         cargoColumn.setVisible(cargo);
         salarioColumn.setVisible(salario);
@@ -144,7 +146,6 @@ public class ImpressaoController {
     private void exibirAgrupadosPorFuncao() {
         tabelaImpressao.setItems(funcionarioRelatorioService.listarPorFuncao());
     }
-
 
     @FXML
     public void exibirAniversariantes() {
@@ -163,7 +164,9 @@ public class ImpressaoController {
 
     @FXML
     public void exibirTotalSalarios() {
-       //tabelaImpressao.setItems(funcionarioRelatorioService.listarTotalSalarios());
+        BigDecimal totalSalarios = funcionarioRelatorioService.listarTotalSalarios();
+        tabelaImpressao.getItems().clear();  // Limpar itens da tabela para mostrar o salário no titulo
+        salarioColumn.setText("Total dos Salários: R$" + decimalFormat.format(totalSalarios));
     }
 
     @FXML
